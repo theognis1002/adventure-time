@@ -24,7 +24,7 @@ class Frame(TimeStampedModel):
     colors = models.JSONField(default=dict, blank=True, null=True, encoder=DjangoJSONEncoder)
 
     class Meta:
-        unique_together = ("story", "index")
+        unique_together = ("story", "index")  # per requirement
         verbose_name = _("Frame")
         verbose_name_plural = _("Frames")
 
@@ -32,6 +32,8 @@ class Frame(TimeStampedModel):
         return f"Frame ID#{self.pk}"
 
 
+# debated just adding this as an `ArrayField` / `JSONField on `Frame` - decided to put it as a separate `Button` model instead.
+# It could be implemented either way.
 class Button(TimeStampedModel):
     frame = models.ForeignKey(Frame, related_name="buttons", on_delete=models.CASCADE, verbose_name=_("Frame"))
     text = models.CharField(_("Button Text"), max_length=255)

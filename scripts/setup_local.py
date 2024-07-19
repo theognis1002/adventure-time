@@ -21,7 +21,6 @@ FIXTURE_DIR = os.path.join(settings.BASE_DIR, "data")
 
 
 class SetupManager:
-
     @transaction.atomic
     def setup_users(self):
         if not User.objects.filter(username=DEFAULT_USERNAME).exists():
@@ -35,7 +34,7 @@ class SetupManager:
     @transaction.atomic
     def setup_tokens(self):
         user = User.objects.get(username=DEFAULT_USERNAME)
-        token, created = Token.objects.get_or_create(user=user, key="opensesame")
+        token, created = Token.objects.get_or_create(user=user, key="opensesame")  # per requirement add `opensesame` default `Token`
         if created:
             LOGGER.info("Token created successfully!")
 

@@ -19,9 +19,12 @@ class StoryViewSet(viewsets.ReadOnlyModelViewSet):
     authentication_classes = [TokenAuthentication]
 
     def get_serializer_class(self):
+        # swap out serializer based on GET List / GET detail
         if self.action == "list":
             return self.list_serializer_class
         return self.serializer_class
+
+    # NOTE:Initially I was going to do an action detail endpoint but it was kind of awkward to handle the querying via `index`.
 
     # @action(detail=True, methods=["get"])
     # def frames(self, request, pk=None, **kwargs):
@@ -42,10 +45,12 @@ class StoryViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FrameViewSet(viewsets.ReadOnlyModelViewSet):
+    # This is a nested viewset. It is cleaner IMO and allows for it to be extended more easily down the road than a detail endpoint.
+    # The downside is that it required an external third-party package
     serializer_class = FrameSerializer
     authentication_classes = [TokenAuthentication]
     lookup_field = "index"
 
     def get_queryset(self):
-        story_id = self.kwargs["story_pk"]
+        story_id = self.kwargs["story_pk"]  # filtering here due to being a nested viewset
         return Frame.objects.prefetch_related("buttons").filter(story_id=story_id)

@@ -5,7 +5,7 @@ from stories.models import Button, Frame, Story
 class StoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
-        fields = ["id"]
+        fields = ["id"]  # per requirement
 
 
 class StorySerializer(serializers.ModelSerializer):
