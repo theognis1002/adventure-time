@@ -16,7 +16,7 @@ Button = apps.get_model("stories", "Button")
 
 DEFAULT_USERNAME = "johndoe1"
 DEFAULT_EMAIL = "johndoe@gmail.com"
-DEFAULT_PASSWORD = "foo"
+DEFAULT_PASSWORD = "qwerty123"
 FIXTURE_DIR = os.path.join(settings.BASE_DIR, "data")
 
 
@@ -24,13 +24,17 @@ class SetupManager:
 
     @transaction.atomic
     def setup_users(self):
-        if not User.objects.all().exists():
+        if not User.objects.filter(username=DEFAULT_USERNAME).exists():
             User.objects.create_user(username=DEFAULT_USERNAME, email=DEFAULT_EMAIL, password=DEFAULT_PASSWORD)
             LOGGER.info("User created successfully!")
 
+        if not User.objects.filter(is_superuser=True).exists():
+            User.objects.create_superuser(username="stanleykubrick", email="kubrick1@a24.com", password=DEFAULT_PASSWORD)
+            LOGGER.info("Superuser created successfully!")
+
     @transaction.atomic
     def setup_tokens(self):
-        user = User.objects.first()
+        user = User.objects.get(username=DEFAULT_USERNAME)
         token, created = Token.objects.get_or_create(user=user, key="opensesame")
         if created:
             LOGGER.info("Token created successfully!")

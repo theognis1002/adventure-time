@@ -48,4 +48,4 @@ class FrameViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         story_id = self.kwargs["story_pk"]
-        return Frame.objects.filter(story_id=story_id)
+        return Frame.objects.prefetch_related("buttons").filter(story_id=story_id)

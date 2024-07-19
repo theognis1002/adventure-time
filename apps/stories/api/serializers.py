@@ -21,6 +21,8 @@ class ButtonSerializer(serializers.ModelSerializer):
 
 
 class FrameSerializer(serializers.ModelSerializer):
+    buttons = ButtonSerializer(many=True)
+
     class Meta:
         model = Frame
         fields = "__all__"
