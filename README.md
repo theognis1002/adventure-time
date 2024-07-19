@@ -81,3 +81,10 @@ Vary: Accept
     "story": "e1b9224e-8973-4394-97d4-a999e916540b"
 }
 ```
+
+## TODO
+
+1. add test coverage via `pytest` / `pytest-django`
+1. add type annotations to all methods, classes, functions, etc.
+1. add docstrings to all methods, classes, functions, etc.
+1. add UI
